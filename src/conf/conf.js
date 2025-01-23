@@ -1,6 +1,6 @@
-import App from "../App"
 
 const conf=  {
+    AppwriteEndpoint: String(process.env.VITE_APP_APPWRITE_ENDPOINT),
     AppwriteProjectId:String(process.env.VITE_APP_APPWRITE_PROJECT_ID),
     AppwriteDatabaseID: String(process.env.VITE_APP_APPWRITE_DATABASE_ID),
     AppwriteCollectionCategoriesId: String(process.env.VITE_APP_APPWRITE_COLLECTION_CATEGORIES_ID),
