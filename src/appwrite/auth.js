@@ -26,9 +26,9 @@ export class AuthService {
         try{
             return await this.account.deleteSessions()
         }
-        catch(error){
-            console.log("Appwrite Error:Logout:",error)
-            throw error
+        catch(e){
+            console.log("Appwrite Error:Logout:",e)
+            throw e
         }
     }
     async getCurrentUser(){
