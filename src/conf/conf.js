@@ -1,10 +1,10 @@
 
-const conf=  {
-    AppwriteEndpoint: String(process.env.VITE_APP_APPWRITE_ENDPOINT),
-    AppwriteProjectId:String(process.env.VITE_APP_APPWRITE_PROJECT_ID),
-    AppwriteDatabaseID: String(process.env.VITE_APP_APPWRITE_DATABASE_ID),
-    AppwriteCollectionCategoriesId: String(process.env.VITE_APP_APPWRITE_COLLECTION_CATEGORIES_ID),
-    AppwriteBucketAudioId: String(process.env.VITE_APP_APPWRITE_BUCKET_AUDIO_ID),
-    AppwriteBucketImageId: String(process.env.VITE_APP_APPWRITE_BUCKET_IMAGE_ID),
+const conf = {
+    AppwriteEndpoint: String(import.meta.env.VITE_APP_APPWRITE_ENDPOINT),
+    AppwriteProjectId: String(import.meta.env.VITE_APP_APPWRITE_PROJECT_ID),
+    AppwriteDatabaseID: String(import.meta.env.VITE_APP_APPWRITE_DATABASE_ID),
+    AppwriteCollectionCategoriesId: String(import.meta.env.VITE_APP_APPWRITE_COLLECTION_CATEGORIES_ID),
+    AppwriteBucketAudioId: String(import.meta.env.VITE_APP_APPWRITE_BUCKET_AUDIO_ID),
+    AppwriteBucketImageId: String(import.meta.env.VITE_APP_APPWRITE_BUCKET_IMAGE_ID),
 }
 export default conf
