@@ -14,7 +14,7 @@ export class AuthService {
 
     async Login({email,password}){
         try{
-            return await this.account.createEmailPasswordSession("atulharsh273@gmail.com","12345678")
+            return await this.account.createEmailPasswordSession(email,password)
         }
         catch(error){
             console.log("Appwrite Error:Login:",error)
@@ -26,9 +26,9 @@ export class AuthService {
         try{
             return await this.account.deleteSessions()
         }
-        catch(error){
-            console.log("Appwrite Error:Logout:",error)
-            throw error
+        catch(e){
+            console.log("Appwrite Error:Logout:",e)
+            throw e
         }
     }
     async getCurrentUser(){

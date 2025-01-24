@@ -1,15 +1,19 @@
-import { useState } from 'react'
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Auth from "./pages/Auth";
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <p>Hello HTyagi ji</p>
-      </div>
-    </>
-  )
+    
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Auth/>}></Route>
+        <Route path="*" element={<h1>404 Not Found</h1>}></Route>
+      </Routes>
+    
+    </BrowserRouter>
+   
+        
+  );
 }
 
-export default App
+export default App;
