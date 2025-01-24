@@ -1,32 +1,35 @@
 import { useState } from "react";
-
+import { FaEyeSlash } from "react-icons/fa";
+import { IoEyeSharp } from "react-icons/io5";
 import { AuthService } from "../appwrite/auth";
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+
+  const [formData,setformData] = useState({ email: '', password: '' });
 
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [passwordVisible, setPasswordVisible] = useState(false);
 
   const authService = new AuthService(); // Instantiate the AuthService
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setformData({ ...formData, [name]: value });
+  }
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(null); // Reset error
-    setLoading(true); // Set loading state
+    setError(null); 
+    setLoading(true);
 
     try {
-      const response = await authService.Login({ email, password });
+      const response = await authService.Login({ email: formData.email, password: formData.password });
       console.log("Login successful:", response);
-      const user = await authService.getCurrentUser();
-      console.log("Current user:", user);
-      // Handle successful login, e.g., redirect or save token
     } catch (err) {
       console.error("Login failed:", err);
       setError(err?.message || "An error occurred during login.");
     } finally {
-      setLoading(false); // Reset loading state
+      setLoading(false);
     }
 
   };
@@ -48,8 +51,9 @@ const Login = () => {
             <input
               id="email"
               type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
               className="w-full px-4 py-3 bg-gray-800 border border-gray-700 text-white rounded-lg shadow-sm focus:ring-2 focus:ring-cyan-500 focus:outline-none placeholder-gray-500"
               placeholder="Enter your email"
               required
@@ -57,7 +61,7 @@ const Login = () => {
           </div>
 
           {/* Password Field */}
-          <div>
+          <div className="relative">
             <label
               htmlFor="password"
               className="block text-sm font-semibold text-gray-400 mb-2"
@@ -66,13 +70,15 @@ const Login = () => {
             </label>
             <input
               id="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              name="password"
+              type={ passwordVisible ? "text" : "password"}
+              value={formData.password}
+              onChange={handleChange}
               className="w-full px-4 py-3 bg-gray-800 border border-gray-700 text-white rounded-lg shadow-sm focus:ring-2 focus:ring-cyan-500 focus:outline-none placeholder-gray-500"
               placeholder="Enter your password"
               required
             />
+           <span onClick={()=>setPasswordVisible(!passwordVisible)} className="text-white cursor-pointer absolute top-10 right-3">{passwordVisible?<FaEyeSlash size={20} />:<IoEyeSharp size={20}/>}</span>
           </div>
 
           {/* Error Message */}
