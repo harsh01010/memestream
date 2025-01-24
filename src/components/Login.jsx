@@ -78,7 +78,8 @@ const Login = () => {
               placeholder="Enter your password"
               required
             />
-           <span onClick={()=>setPasswordVisible(!passwordVisible)} className="text-white cursor-pointer absolute top-10 right-3">{passwordVisible?<FaEyeSlash size={20} />:<IoEyeSharp size={20}/>}</span>
+            {formData.password &&  <span onClick={()=>setPasswordVisible(!passwordVisible)} className="text-white cursor-pointer absolute top-10 right-3">{passwordVisible?<FaEyeSlash size={20} />:<IoEyeSharp size={20}/>}</span>
+}
           </div>
 
           {/* Error Message */}
