@@ -7,6 +7,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Auth/>}></Route>
+        <Route path="/login" element={<Auth/>}></Route>
         <Route path="*" element={<h1>404 Not Found</h1>}></Route>
       </Routes>
     
