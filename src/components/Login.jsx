@@ -2,6 +2,7 @@ import { useState } from "react";
 import { FaEyeSlash } from "react-icons/fa";
 import { IoEyeSharp } from "react-icons/io5";
 import { AuthService } from "../appwrite/auth";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
 
@@ -9,7 +10,9 @@ const Login = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(false);
-  const authService = new AuthService(); // Instantiate the AuthService
+
+  const authService = new AuthService();
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -23,6 +26,7 @@ const Login = () => {
 
     try {
       const response = await authService.Login({ email: formData.email, password: formData.password });
+      navigate("/home");
       console.log("Login successful:", response);
     } catch (err) {
       console.error("Login failed:", err);
