@@ -1,15 +1,17 @@
-import { Client, Query,Databases} from "appwrite";
+import { Client, Query,Databases, ID,Storage} from "appwrite";
 import conf from "../conf/conf.js"
 
 export class StorageService {
     client = new Client();
     databases;
+    storage;
 
     constructor() {
         this.client
             .setEndpoint(conf.AppwriteEndpoint)
             .setProject(conf.AppwriteProjectId);
         this.databases = new Databases(this.client);
+        this.storage = new Storage(this.client);
     }
 
     async GetCategoryPage({pageNo,pageSize}){
@@ -36,11 +38,39 @@ export class StorageService {
     }
 
     async SearchCategory({searchTerm}){
-
+        try{
+            const response = await this.databases.listDocuments(
+                conf.AppwriteDatabaseID,
+                conf.AppwriteCollectionCategoriesId,
+                [
+                    Query.search("CategoryName", searchTerm)
+                ]
+        );
+        //console.log("Appwrite:GetCategoryPage:",response)
+        return {categories:response.documents, total:response.total};
+        }
+        catch(e){
+            console.log("Appwrite:SearchCategory:",e)
+            throw e;
+        }
     }
 
     async AddCategory({categoryName,imageUrl}){
-
+        try{
+            const response = await this.databases.createDocument(
+                conf.AppwriteDatabaseID,
+                conf.AppwriteCollectionCategoriesId,
+                ID.unique(),
+                {
+                    CategoryName: categoryName,
+                    CategoryImageUrl: imageUrl
+                }
+            );
+        }
+        catch(e){
+            console.log("Appwrite:AddCategory:",e)
+            throw e;
+        }
     }
 
     async DeleteCategory({categoryId}){
@@ -62,4 +92,20 @@ export class StorageService {
     async UpdateCategory({categoryId,categoryName,imageUrl}){
     }
 
+    async UploadAudio({categoryName,fileName,audioFile}){
+        try{
+            console.log("Appwrite:UploadAudio:",categoryName,fileName);
+            const customId = `${categoryName}-${fileName}`;
+            const response = await this.storage.createFile(
+                conf.AppwriteBucketAudioId,
+                customId,
+                audioFile
+            );
+            return response;
+        }
+        catch(e){
+            console.log("Appwrite:UploadAudio:",e)
+            throw e;
+        }
+    }
 }

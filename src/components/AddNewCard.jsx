@@ -6,7 +6,7 @@ const AddNewCard = () => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate("/add-new-audio");
+    navigate("/uploadAudio");
   };
 
   return (
