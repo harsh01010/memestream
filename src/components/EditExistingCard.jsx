@@ -16,10 +16,11 @@ const EditExistingCard = () => {
         <FcDataConfiguration size={30} />
       </div>
       <button
-        onClick={handleClick}
+        // onClick={handleClick}
+        disabled={true}
         className="w-full py-3 bg-cyan-500 text-white font-bold rounded-lg shadow-md hover:bg-cyan-400 transition duration-200 transform hover:scale-105 flex items-center justify-center"
       >
-        <span className="mr-2">Go</span>
+        <span className="mr-2">Coming Soon!</span>
         <FaArrowRight />
       </button>
     </div>

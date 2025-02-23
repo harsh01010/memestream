@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaEyeSlash } from "react-icons/fa";
 import { IoEyeSharp } from "react-icons/io5";
 import { AuthService } from "../appwrite/auth";
@@ -10,6 +10,18 @@ const Login = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(false);
+
+  useEffect(()=>{
+    const checkForActiveSession = async ()=>{
+      const user = await authService.getCurrentUser();
+      console.log(user);
+      if(user!=null)
+      {
+        navigate('home')
+      }
+    }
+    checkForActiveSession();
+  },[])
 
   const authService = new AuthService();
   const navigate = useNavigate();
