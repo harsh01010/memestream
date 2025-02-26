@@ -1,10 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { GoSearch } from "react-icons/go";
 import { IoIosAddCircle } from "react-icons/io";
 import { FaRegArrowAltCircleRight,FaRegArrowAltCircleLeft  } from "react-icons/fa";
 import AddNewCategory from "./AddNewCategory";
 import { StorageService } from "../appwrite/storage";
 import CategoryCard from "./CategoryCard"; 
+import {toast } from 'react-toastify';
 
 const AddNew = () => {
     const [searchTerm, setSearchTerm] = useState('');
@@ -12,7 +13,8 @@ const AddNew = () => {
     const [pageNo, setPageNo] = useState(1);
     const [categories, setCategories] = useState({ categories: [], total: 0 });
     const [openAddnewCategoryComponent, setOpenAddnewCategoryComponent] = useState(false);
-
+    const ref = useRef();
+    const searchTermRef = useRef();
     const storageService = new StorageService();
 
     const loadPage = async (pgN, pgS) => {
@@ -22,7 +24,14 @@ const AddNew = () => {
     };
 
     const handleSearch = async ()=>{
-        const res = await storageService.SearchCategory({ searchTerm });
+        const currentSearchTerm = searchTermRef.current;
+        console.log(currentSearchTerm);
+        if( !currentSearchTerm || currentSearchTerm.trim() === ''){
+            ref.current.placeholder = "Please enter a search term"; 
+            ref.current.value = '';
+            toast.warning("Please enter a search term!")
+            return;};
+        const res = await storageService.SearchCategory({ searchTerm:currentSearchTerm });
         setCategories({ categories: res.categories, total: res.total });
         console.log(res);
     }
@@ -31,7 +40,29 @@ const AddNew = () => {
         loadPage(pageNo, pageSize);
     }, [pageNo]);
 
-    const handleSearchTermChange = (e) => setSearchTerm(e.target.value);
+
+
+    const handleInputFocus = (e) => {
+        if (e.code === "Enter") {
+            if(document.activeElement === ref.current){
+                handleSearch();
+            }
+            else{
+                ref.current?.focus();
+            }
+    }
+    };
+
+    useEffect(() => {
+        document.addEventListener("keydown", handleInputFocus);
+
+        return () => {
+            document.removeEventListener("keydown", handleInputFocus);
+        };
+    }, []);
+    const handleSearchTermChange = (e) =>{
+        searchTermRef.current = e.target.value;
+        setSearchTerm(()=>e.target.value)};
     const handleOpenAddNewCategory = (val) =>{ 
         if(val==false)
         {
@@ -44,6 +75,7 @@ const AddNew = () => {
             {/* Search Input */}
             <div className="flex items-center gap-2 mb-4">
                 <input
+                    ref={ref}
                     type="text"
                     placeholder="Search categories..."
                     value={searchTerm}

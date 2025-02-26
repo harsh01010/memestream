@@ -4,7 +4,7 @@ import { IoAddCircle, IoCloseCircle } from "react-icons/io5";
 import { StorageService } from "../appwrite/storage";
 import {IoIosAddCircle} from "react-icons/io";
 import { VscDiscard } from "react-icons/vsc";
-import { ToastContainer, toast } from 'react-toastify';
+import {toast } from 'react-toastify';
 const UploadNewAudio = ({categoryName,handleModalOpen}) => {
     const [audio, setAudio] = useState(null);
     const [audioUrl, setAudioUrl] = useState(null);
