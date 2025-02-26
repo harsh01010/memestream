@@ -101,6 +101,18 @@ export class StorageService {
                 customId,
                 audioFile
             );
+
+            // insert into audioCategoryMap table
+            const audioCategoryMapResponse = await this.databases.createDocument(
+                conf.AppwriteDatabaseID,
+                conf.AppwriteAudioCategoryMapId,
+                ID.unique(),
+                {
+                    audioId: customId,
+                    category: categoryName,
+                    addDate: new Date().toISOString()   
+                }
+            );
             return response;
         }
         catch(e){
